@@ -26,3 +26,51 @@
 .inner-main>.button{margin-top:32px}
 @media(max-width:900px){.inner-main{padding-top:32px;padding-bottom:70px}.inner-heading h1{font-size:clamp(2.8rem,11vw,5rem)}.back-link{margin-bottom:28px}}
 @media(max-width:600px){.reading-note{padding:24px}.lead{font-size:1.08rem}}
+
+.editorial-triggers{max-width:860px;margin:72px 0 0;padding-top:44px;border-top:1px solid var(--line)}
+.editorial-triggers h2{font:650 clamp(2rem,4vw,3.7rem)/1.04 "Fraunces",Georgia,serif;letter-spacing:-.03em;margin:8px 0 16px}
+.trigger-intro{max-width:680px;color:var(--muted);font-size:1.05rem}
+.trigger-figure{margin:30px 0 0;max-width:620px}
+.trigger-figure img{display:block;width:100%;height:auto;border:1px solid var(--line);background:#d8d2bd}
+.trigger-figure figcaption{margin-top:12px;color:var(--muted);font-size:.9rem;line-height:1.5}
+
+.moderation-body{background:#eee8dd}
+.moderation-badge{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--line);padding:8px 12px;border-radius:999px}
+.moderation-main{padding-top:60px;padding-bottom:100px;min-height:75vh}
+.moderation-login{max-width:640px;background:var(--light);padding:42px}
+.moderation-login h1,.moderation-top h1{font:650 clamp(2.6rem,6vw,5.5rem)/.98 "Fraunces",Georgia,serif;letter-spacing:-.04em;margin:8px 0 20px}
+.moderation-login form{margin-top:28px;display:grid;gap:18px}
+.moderation-login label{display:grid;gap:8px;font-weight:700}
+.moderation-login input{width:100%;padding:13px 14px;border:1px solid #bdb5a9;background:#fff;font:inherit}
+.moderation-panel{max-width:1050px}
+.moderation-top{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;border-bottom:1px solid var(--line);padding-bottom:28px}
+.moderation-exit{border:1px solid var(--ink);background:transparent;color:var(--ink);padding:10px 16px;border-radius:999px;cursor:pointer}
+.moderation-tabs{display:flex;gap:10px;flex-wrap:wrap;margin:28px 0 16px}
+.moderation-tab{border:1px solid var(--line);background:var(--light);padding:10px 15px;border-radius:999px;cursor:pointer;font-weight:700}
+.moderation-tab.is-active{background:var(--ink);color:var(--light);border-color:var(--ink)}
+.moderation-feedback{min-height:28px;color:var(--muted);font-size:.92rem}
+.moderation-list{display:grid;gap:18px}
+.moderation-card{background:var(--light);padding:28px;border:1px solid var(--line)}
+.moderation-card-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}
+.moderation-card-head h2{font:650 1.65rem/1.1 "Fraunces",Georgia,serif;margin:5px 0 0}
+.moderation-card-head time{font-size:.8rem;color:var(--muted);white-space:nowrap}
+.moderation-article{font-size:.68rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--accent)}
+.moderation-comment{font-size:1.05rem;line-height:1.65;margin:24px 0}
+.moderation-image-link{display:grid;gap:8px;max-width:480px;text-decoration:none;font-size:.85rem;font-weight:700}
+.moderation-image-link img{width:100%;max-height:360px;object-fit:contain;background:#eee;border:1px solid var(--line)}
+.moderation-reply-note,.moderator-note{font-size:.88rem;color:var(--muted)}
+.moderator-note{background:#f0eadf;padding:12px 14px}
+.moderation-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.moderation-actions button{border:0;padding:11px 17px;border-radius:999px;font:700 .9rem "DM Sans",sans-serif;cursor:pointer}
+.moderation-actions .approve{background:#1d4f38;color:#fff}
+.moderation-actions .reject{background:#762e2e;color:#fff}
+.moderation-actions .hide{background:#343434;color:#fff}
+.moderation-actions .restore{background:#e2d8c8;color:#171714}
+.moderation-actions button:disabled{opacity:.45;cursor:wait}
+.moderation-empty{padding:44px;background:var(--light);color:var(--muted);text-align:center}
+@media(max-width:650px){
+  .moderation-login{padding:28px}
+  .moderation-top,.moderation-card-head{flex-direction:column}
+  .moderation-card-head time{white-space:normal}
+  .moderation-card{padding:22px}
+}
