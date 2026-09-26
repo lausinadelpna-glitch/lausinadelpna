@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Panel privado de moderación de La Usina del PNA.">
+<title>Moderación | La Usina del PNA</title>
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="sections.css">
+</head>
+<body class="moderation-body">
+<header class="site-header"><div class="shell header-inner">
+<a class="brand" href="index.html" aria-label="La Usina del PNA"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span class="brand-copy"><strong>LA USINA</strong><small>DEL PNA</small></span></a>
+<div class="moderation-badge">Panel editorial</div>
+</div></header>
+
+<main class="shell moderation-main">
+<section class="moderation-login" data-moderation-login>
+<p class="kicker">Acceso privado</p>
+<h1>Moderación de conversaciones</h1>
+<p>Ingresá la clave editorial para revisar los aportes enviados por quienes leen La Usina.</p>
+<form data-key-form>
+<label>Clave editorial
+<input type="password" name="key" required autocomplete="current-password" placeholder="Ingresá la clave">
+</label>
+<div class="form-actions"><button class="button button-primary" type="submit">Entrar</button><span data-login-status></span></div>
+</form>
+</section>
+
+<section class="moderation-panel" data-moderation-panel hidden>
+<div class="moderation-top">
+<div><p class="kicker">Panel editorial</p><h1>Conversaciones</h1></div>
+<button type="button" class="button moderation-exit" data-logout>Salir</button>
+</div>
+<div class="moderation-tabs" role="tablist">
+<button type="button" class="moderation-tab is-active" data-status-tab="pending">Pendientes <span data-count="pending"></span></button>
+<button type="button" class="moderation-tab" data-status-tab="approved">Publicados <span data-count="approved"></span></button>
+<button type="button" class="moderation-tab" data-status-tab="rejected">Rechazados <span data-count="rejected"></span></button>
+</div>
+<div class="moderation-feedback" data-panel-status></div>
+<div class="moderation-list" data-moderation-list></div>
+</section>
+</main>
+<script src="supabase-config.js"></script>
+<script src="moderacion.js"></script>
+</body></html>
