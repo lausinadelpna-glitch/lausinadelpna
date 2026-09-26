@@ -51,7 +51,7 @@
       const url = new URL(cfg.url + '/functions/v1/comentarios');
       url.searchParams.set('edition', edition);
       url.searchParams.set('article', article);
-      const res = await fetch(url, { headers: { apikey: cfg.anonKey, Authorization: 'Bearer ' + cfg.anonKey }});
+      const res = await fetch(url, { headers: { apikey: cfg.anonKey }});
       if (!res.ok) throw new Error('No se pudo cargar la conversación');
       const data = await res.json();
       const items = data.items || [];
@@ -89,7 +89,7 @@
     try {
       const res = await fetch(cfg.url + '/functions/v1/participar', {
         method: 'POST',
-        headers: { apikey: cfg.anonKey, Authorization: 'Bearer ' + cfg.anonKey },
+        headers: { apikey: cfg.anonKey },
         body: fd
       });
       const data = await res.json().catch(() => ({}));
