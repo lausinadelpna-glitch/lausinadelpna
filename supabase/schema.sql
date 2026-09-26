@@ -15,8 +15,10 @@ create table if not exists public.aportes (
   is_deleted boolean not null default false
 );
 
-create index if not exists aportes_article_status_idx on public.aportes(edition, article, status, created_at);
-create index if not exists aportes_parent_idx on public.aportes(parent_id);
+create index if not exists aportes_article_status_idx
+  on public.aportes(edition, article, status, created_at);
+create index if not exists aportes_parent_idx
+  on public.aportes(parent_id);
 
 alter table public.aportes enable row level security;
 
@@ -26,8 +28,17 @@ on public.aportes for select
 to anon, authenticated
 using (status = 'approved' and is_deleted = false);
 
+revoke insert, update, delete on public.aportes from anon, authenticated;
+grant select on public.aportes to anon, authenticated;
+
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-values ('participacion', 'participacion', false, 5242880, array['image/jpeg','image/png','image/webp'])
+values (
+  'participacion',
+  'participacion',
+  false,
+  5242880,
+  array['image/jpeg','image/png','image/webp']
+)
 on conflict (id) do update set
   public = excluded.public,
   file_size_limit = excluded.file_size_limit,
