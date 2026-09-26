@@ -15,7 +15,7 @@
     'editorial': 'Editorial',
     'relato-una-experiencia': 'Una experiencia de cuidado',
     'entrevista-marianela-meneghetti': 'Entrevista a Marianela Meneghetti',
-    'pensar': '¿Quiénes cuidan a quienes cuidan?'
+    'pensar': 'Lo que sos-tiene y con-tiene el cuidado'
   };
 
   const escapeHtml = (value = '') => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
