@@ -25,17 +25,37 @@ Deno.serve(async (req: Request) => {
   if (req.method !== 'POST') return new Response(JSON.stringify({ error: 'Método no permitido' }), { status: 405, headers: { ...cors, 'Content-Type': 'application/json' } })
 
   try {
-    const form = await req.formData()
-    if (String(form.get('website') || '').trim()) {
-      return new Response(JSON.stringify({ ok: true }), { headers: { ...cors, 'Content-Type': 'application/json' } })
+    const contentType = req.headers.get('content-type') || ''
+    let edition = ''
+    let article = ''
+    let author_name = ''
+    let body = ''
+    let parent_id: string | null = null
+    let image: FormDataEntryValue | null = null
+    let website = ''
+
+    if (contentType.includes('application/json')) {
+      const data = await req.json()
+      edition = String(data.edition || '').trim()
+      article = String(data.article || '').trim()
+      author_name = String(data.author_name || '').trim()
+      body = String(data.body || '').trim()
+      parent_id = String(data.parent_id || '').trim() || null
+      website = String(data.website || '').trim()
+    } else {
+      const form = await req.formData()
+      edition = String(form.get('edition') || '').trim()
+      article = String(form.get('article') || '').trim()
+      author_name = String(form.get('author_name') || '').trim()
+      body = String(form.get('body') || '').trim()
+      parent_id = String(form.get('parent_id') || '').trim() || null
+      image = form.get('image')
+      website = String(form.get('website') || '').trim()
     }
 
-    const edition = String(form.get('edition') || '').trim()
-    const article = String(form.get('article') || '').trim()
-    const author_name = String(form.get('author_name') || '').trim()
-    const body = String(form.get('body') || '').trim()
-    const parent_id = String(form.get('parent_id') || '').trim() || null
-    const image = form.get('image')
+    if (website) {
+      return new Response(JSON.stringify({ ok: true }), { headers: { ...cors, 'Content-Type': 'application/json' } })
+    }
 
     if (!/^[0-9a-z-]{1,40}$/i.test(edition) || !/^[0-9a-z-]{1,100}$/i.test(article)) {
       return new Response(JSON.stringify({ error: 'Referencia de publicación inválida.' }), { status: 400, headers: { ...cors, 'Content-Type': 'application/json' } })
