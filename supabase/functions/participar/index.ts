@@ -1,17 +1,34 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { createClient } from 'npm:@supabase/supabase-js@2.95.0'
 
 const cors = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-Deno.serve(async (req) => {
+function envKey(name: string) {
+  try {
+    const all = JSON.parse(Deno.env.get(name) || '{}')
+    return all.default || ''
+  } catch {
+    return ''
+  }
+}
+
+function authorized(req: Request) {
+  const expected = envKey('SUPABASE_PUBLISHABLE_KEYS')
+  return Boolean(expected) && req.headers.get('apikey') === expected
+}
+
+Deno.serve(async (req: Request) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors })
+  if (!authorized(req)) return new Response(JSON.stringify({ error: 'No autorizado' }), { status: 401, headers: { ...cors, 'Content-Type': 'application/json' } })
   if (req.method !== 'POST') return new Response(JSON.stringify({ error: 'Método no permitido' }), { status: 405, headers: { ...cors, 'Content-Type': 'application/json' } })
 
   try {
     const form = await req.formData()
-    if (String(form.get('website') || '').trim()) return new Response(JSON.stringify({ ok: true }), { headers: { ...cors, 'Content-Type': 'application/json' } })
+    if (String(form.get('website') || '').trim()) {
+      return new Response(JSON.stringify({ ok: true }), { headers: { ...cors, 'Content-Type': 'application/json' } })
+    }
 
     const edition = String(form.get('edition') || '').trim()
     const article = String(form.get('article') || '').trim()
@@ -20,11 +37,16 @@ Deno.serve(async (req) => {
     const parent_id = String(form.get('parent_id') || '').trim() || null
     const image = form.get('image')
 
-    if (!edition || !article || author_name.length < 2 || author_name.length > 80 || body.length < 2 || body.length > 3000) {
+    if (!/^[0-9a-z-]{1,40}$/i.test(edition) || !/^[0-9a-z-]{1,100}$/i.test(article)) {
+      return new Response(JSON.stringify({ error: 'Referencia de publicación inválida.' }), { status: 400, headers: { ...cors, 'Content-Type': 'application/json' } })
+    }
+    if (author_name.length < 2 || author_name.length > 80 || body.length < 2 || body.length > 3000) {
       return new Response(JSON.stringify({ error: 'Revisá el nombre y el texto del aporte.' }), { status: 400, headers: { ...cors, 'Content-Type': 'application/json' } })
     }
 
-    const supabase = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!)
+    const secretKey = envKey('SUPABASE_SECRET_KEYS')
+    if (!secretKey) throw new Error('Secret key unavailable')
+    const supabase = createClient(Deno.env.get('SUPABASE_URL')!, secretKey)
     let image_path: string | null = null
 
     if (image instanceof File && image.size > 0) {
@@ -48,7 +70,7 @@ Deno.serve(async (req) => {
     if (ins.error) throw ins.error
 
     return new Response(JSON.stringify({ ok: true, id: ins.data.id }), { headers: { ...cors, 'Content-Type': 'application/json' } })
-  } catch (err) {
+  } catch {
     return new Response(JSON.stringify({ error: 'No se pudo guardar el aporte.' }), { status: 500, headers: { ...cors, 'Content-Type': 'application/json' } })
   }
 })
