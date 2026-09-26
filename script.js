@@ -38,19 +38,3 @@ if (shareButton) {
     }
   });
 }
-
-
-/* Edición 0: activar el relato completo publicado */
-if (/\/ediciones\/0\/(?:index\.html)?$/.test(window.location.pathname)) {
-  document.querySelectorAll('.entry').forEach((entry) => {
-    const type = entry.querySelector('.entry-type');
-    const title = entry.querySelector('h2');
-    const summary = entry.querySelector('p');
-    if (!type || !title) return;
-    if (type.textContent.toLowerCase().includes('relato')) {
-      type.textContent = 'Relato';
-      title.innerHTML = '<a href="relato-una-experiencia.html">Una experiencia de cuidado <span aria-hidden="true">↗</span></a>';
-      if (summary) summary.textContent = 'Una escena del primer nivel que permite pensar demanda, escucha, redes y cuidado.';
-    }
-  });
-}
