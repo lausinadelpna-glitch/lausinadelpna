@@ -1,38 +1,33 @@
 # Moderación de aportes — La Usina del PNA
 
-La participación pública del sitio se guarda en Supabase y **ningún aporte se publica automáticamente**.
+La participación pública del sitio se modera desde una pantalla privada. El equipo editorial no necesita entrar al Table Editor de Supabase.
 
-## Flujo de trabajo
+## Acceso
 
-1. Abrir el proyecto **La Usina del PNA** en Supabase.
-2. Ir a **Table Editor → public → aportes**.
-3. Filtrar por `status = pending`.
-4. Revisar:
-   - `author_name`: nombre o seudónimo.
-   - `body`: texto enviado.
-   - `article`: nota a la que pertenece.
-   - `parent_id`: si es una respuesta a otro aporte.
-   - `image_path`: si contiene una imagen.
-5. Si hay imagen, verla en **Storage → participacion**. El bucket es privado.
-6. Para publicar:
-   - cambiar `status` a `approved`;
-   - completar `approved_at` con la fecha/hora de aprobación.
-7. Para no publicar:
-   - cambiar `status` a `rejected`;
-   - opcionalmente explicar el motivo en `moderator_note`.
+Abrir `/moderacion.html` en el sitio de La Usina e ingresar la clave editorial.
 
-La web solo muestra registros con `status = approved` y `is_deleted = false`.
+La clave se valida en una Edge Function y no está incluida en el código público de GitHub. El navegador la conserva solo durante la sesión abierta.
 
-## Criterios editoriales sugeridos
+## Pantalla
 
-La moderación no busca eliminar desacuerdos. Debe intervenir cuando un aporte incluya agresiones personales, datos identificatorios o sensibles de terceros, imágenes sin consentimiento, spam o material claramente ajeno al propósito de La Usina.
+El panel tiene tres secciones:
+
+- **Pendientes:** nuevos aportes que todavía no son visibles en la web.
+- **Publicados:** comentarios aprobados que ya aparecen debajo de los artículos.
+- **Rechazados:** aportes que el equipo decidió no publicar.
+
+Cada tarjeta muestra nombre o seudónimo, artículo, fecha, texto completo y, cuando corresponde, la imagen adjunta.
+
+## Acciones
+
+- **Aprobar:** publica el aporte.
+- **Rechazar:** no lo publica y permite guardar un motivo interno opcional.
+- **Ocultar:** retira de la vista pública un comentario ya aprobado sin borrarlo.
+- **Volver a mostrar:** restaura un comentario oculto.
+
+La moderación no busca eliminar desacuerdos. Se recomienda intervenir ante agresiones personales, datos identificatorios o sensibles de terceros, imágenes sin consentimiento, spam o material claramente ajeno al propósito de La Usina.
 
 ## Imágenes
 
-Formatos admitidos: JPG, PNG y WEBP.  
-Tamaño máximo: 5 MB.  
-Las imágenes permanecen privadas en Storage y la web genera enlaces temporales únicamente para aportes aprobados.
-
-## Ocultar un aporte ya publicado
-
-Cambiar `is_deleted` a `true`. Esto lo retira de la vista pública sin borrar el registro.
+Formatos admitidos: JPG, PNG y WEBP. Tamaño máximo: 5 MB.
+Las imágenes permanecen privadas en Storage y el panel genera enlaces temporales para revisarlas.
